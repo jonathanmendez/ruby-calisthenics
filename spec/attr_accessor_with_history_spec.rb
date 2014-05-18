@@ -20,7 +20,11 @@ describe '#attr_accessor_with_history', :pending => true do
     it 'should work if getter used first [10 points]' do
       @subject.foo_history.should be_nil
     end
-    it 'should work if setter used first [20 points]' do
+    it 'should work if setter used once [10 points]' do
+      @subject.foo = 'x'
+      @subject.foo_history.should == [nil]
+    end
+    it 'should work if setter used twice [10 points]' do
       @subject.foo = 'x'
       @subject.foo = 'y'
       @subject.foo_history.should == [nil, 'x']
@@ -29,7 +33,9 @@ describe '#attr_accessor_with_history', :pending => true do
       @subject.foo
       @subject.foo = 3
       @subject.foo = 'x'
-      @subject.foo_history.should == [nil, 3]
+      @subject.foo = :y
+      @subject.foo = []
+      @subject.foo_history.should == [nil, 3, 'x', :y]
     end
   end
   describe 'when a symbol is passed [10 points]' do
